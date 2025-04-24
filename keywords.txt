@@ -1,0 +1,5 @@
+DisplayLed KEYWORD1
+DisplayLed2Digits KEYWORD1
+resetDisplay KEYWORD2
+showNumber KEYWORD2
+showCharacter KEYWORD2
