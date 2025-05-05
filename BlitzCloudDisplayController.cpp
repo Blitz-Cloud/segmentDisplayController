@@ -189,11 +189,11 @@ void DisplayLed2Digits::showCharacter(char c[], int duration)
     {
       display.resetDisplay();
       setState(1, 0);
-      display.showNumber(c[i]);
+      display.showCharacter(c[i]);
       delay(5);
       display.resetDisplay();
       setState(0, 1);
-      display.showNumber(c[i + 1]);
+      display.showCharacter(c[i + 1]);
       delay(5);
     }
   }
@@ -204,7 +204,7 @@ void DisplayLed2Digits::showCharacter(char c[], int duration)
     {
       display.resetDisplay();
       setState(0, 1);
-      display.showNumber(c[i]);
+      display.showCharacter(c[i]);
     }
   }
   setState(0, 0);
