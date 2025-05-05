@@ -48,7 +48,7 @@ private:
 public:
   DisplayLed2Digits(int latch, int clock, int data, int hasRegister, int *gpio,
                     int gndD1, int gndD2);
-  void showNumberOld(int num);
   void showNumber(unsigned int num, int duration = 1000);
+  void showCharacter(char c[], int duration = 1000);
 };
 #endif

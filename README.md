@@ -19,8 +19,6 @@ $ pio pkg install -l PATH
 
 ## Utilizare:
 
-> Disclaimer: La momentul acesta doar afisarea de numere este posibila
-
 1. Fara registru de shiftare:
 
 ```cpp
@@ -100,7 +98,19 @@ void setup()
 void loop()
 {
   // este posibila doar afisarea numerelor de la 0 la 9 folosind aceasta varianta
-  disp.showNumber(1);
+  display.showNumber(1);
   delay(2000);
 }
+```
+
+4. Alte utilizari:
+
+```cpp
+
+Display2Digits display(.......)
+// daca se doreste afisarea pe ecran a sirului de caractere abc
+display.showCharacter('abc');
+// de asemenea este posibila si afisarea la ab12
+display.showCharacter('ab12');
+
 ```
