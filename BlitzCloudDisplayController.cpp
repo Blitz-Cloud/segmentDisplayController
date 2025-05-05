@@ -97,8 +97,15 @@ void DisplayLed::showCharacter(char c)
   resetDisplay();
   if (hasShiftRegister)
   {
-    leds = alphabetInBinary[int(toupper(c)) - 65];
-    updateShiftRegister();
+    if (c >= '0' && c <= '9')
+    {
+      showNumber(int(c - '0'));
+    }
+    else if (toUpperCase(c) >= 'A' && toUpperCase(c) <= 'z')
+    {
+      leds = alphabetInBinary[int(toupper(c) - 'A')];
+      updateShiftRegister();
+    }
   }
   else
   {
@@ -169,50 +176,40 @@ DisplayLed2Digits::DisplayLed2Digits(int latch, int clock, int data, int hasRegi
   pinMode(gndD2, OUTPUT);
 }
 
-void DisplayLed2Digits::showNumberOld(int num)
+void DisplayLed2Digits::showCharacter(char c[], int duration)
 {
-  contentLength = 0;
-  if (num < 10)
-  {
-  }
-  else
-  {
-    int numCopy = num;
-    while (num)
-    {
-      num /= 10;
-      contentLength++;
-    }
-    int *content = new int[contentLength];
-    num = numCopy;
-    int k = 0;
-    while (num)
-    {
-      content[contentLength - k - 1] = num % 10;
-      k++;
-      num /= 10;
-    }
-    static unsigned long time = millis();
-    for (pozArray = 0; pozArray < contentLength; pozArray = pozArray + 2)
-    {
-      Serial.println(content[pozArray]);
-      while (millis() - time <= 500)
-      {
-        display.resetDisplay();
-        setState(1, 0);
-        display.showNumber(content[pozArray]);
-        delay(5);
-        display.resetDisplay();
-        setState(0, 1);
+  int i, length = strlen(c);
+  Serial.println(length);
+  Serial.println();
 
-        display.showNumber(content[pozArray + 1]);
-        delay(5);
-      }
+  for (i = 0; i < length - length % 2; i = i + 2)
+  {
+    unsigned long time = millis();
+    while (millis() - time < 1000)
+    {
+      display.resetDisplay();
+      setState(1, 0);
+      display.showNumber(c[i]);
+      delay(5);
+      display.resetDisplay();
+      setState(0, 1);
+      display.showNumber(c[i + 1]);
+      delay(5);
     }
-    delete[] content;
   }
+  if (i == length - 1)
+  {
+    unsigned long time = millis();
+    while (millis() - time < 1000)
+    {
+      display.resetDisplay();
+      setState(0, 1);
+      display.showNumber(c[i]);
+    }
+  }
+  setState(0, 0);
+  delay(2500);
 }
-
 void DisplayLed2Digits::showNumber(unsigned int num, int duration)
 {
   int i, *length = nullptr, *content = nullptr;
